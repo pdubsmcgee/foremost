@@ -3,4 +3,4 @@ Allow: /
 Disallow: /portal
 Disallow: /portal/
 
-Sitemap: https://foremostmachine.com/sitemap.xml
+Sitemap: https://foremostmachine.com/sitemap-index.xml
