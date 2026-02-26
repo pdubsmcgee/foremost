@@ -8,7 +8,6 @@ Astro + Tailwind static site built for Netlify deployment with Netlify Forms and
 - Commercial-only positioning statement
 - Netlify Forms:
   - Request Access form
-  - Contact form
   - Portal RFQ form (includes optional file upload)
 - Private portal pages (`/portal`, `/portal/rfq`, `/portal/docs`) hidden from nav and guarded by shared password login (`/portal-login`)
 - SEO basics: metadata, Open Graph image, sitemap integration, favicon, robots rules
@@ -51,13 +50,12 @@ Open `http://localhost:4321`.
 After first deploy, submit each form once from the live site so Netlify detects all form schemas:
 
 - `/request-access`
-- `/contact`
 - `/portal/rfq`
 
 Then verify in Netlify dashboard:
 
 - **Site configuration** → **Forms** (or **Forms** tab)
-- You should see `request-access`, `contact`, and `portal-rfq`.
+- You should see `request-access` and `portal-rfq`.
 
 ## 5) Configure portal protection method (implemented: password env var)
 
@@ -74,7 +72,6 @@ This is intentionally lightweight and suitable for an MVP with non-sensitive por
 ## 6) Where to view submissions in Netlify dashboard
 
 - Access requests: Form name `request-access`
-- Contact messages: Form name `contact`
 - RFQs: Form name `portal-rfq`
 
 Navigate to **Netlify Dashboard → Your Site → Forms**.
