@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://foremostmachine.com',
+  site: 'https://foremostmachineinc.com',
   integrations: [
     tailwind(),
     sitemap({

@@ -1,23 +1,20 @@
 # Foremost Machine, Inc. Marketing + Access Request Site
 
-Astro + Tailwind static site built for Netlify deployment with Netlify Forms and a simple password-protected portal for approved commercial customers.
+Astro + Tailwind static site for Foremost Machine, Inc.
 
 ## Features
 
 - Public marketing pages (`/`, `/capabilities`, `/industries`, `/about`, `/contact`, `/request-access`)
 - Commercial-only positioning statement
-- Netlify Forms:
-  - Request Access form
-  - Portal RFQ form (includes optional file upload)
+- Netlify-form-compatible markup currently used in Request Access and RFQ forms
 - Private portal pages (`/portal`, `/portal/rfq`, `/portal/docs`) hidden from nav and guarded by shared password login (`/portal-login`)
 - SEO basics: metadata, Open Graph image, sitemap integration, favicon, robots rules
-- Netlify-ready `netlify.toml`
 
 ## Tech Stack
 
 - Astro (static output)
 - Tailwind CSS
-- Netlify Forms (no custom backend)
+- GitHub Pages deployment via GitHub Actions
 
 ## 1) Install dependencies
 
@@ -33,57 +30,57 @@ PUBLIC_PORTAL_PASSWORD=your-temp-password npm run dev
 
 Open `http://localhost:4321`.
 
-## 3) Deploy to Netlify (Git-based deploy)
+## 3) Deploy to GitHub Pages
 
-1. Push this repository to GitHub/GitLab/Bitbucket.
-2. In Netlify, click **Add new site** → **Import an existing project**.
-3. Select your repo.
-4. Build settings:
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-5. Add environment variable in Netlify site settings:
-   - `PUBLIC_PORTAL_PASSWORD` = shared password you will email to approved customers.
-6. Trigger deploy.
+This repository is configured to deploy on push to `main` using `.github/workflows/deploy.yml`.
 
-## 4) Verify Netlify Forms submissions
+### Required one-time GitHub setup
 
-After first deploy, submit each form once from the live site so Netlify detects all form schemas:
+1. Push this repository to GitHub.
+2. In **Repo Settings → Pages**, set **Source** to **GitHub Actions**.
+3. In **Repo Settings → Secrets and variables → Actions**, add:
+   - `PUBLIC_PORTAL_PASSWORD` = shared password for `/portal-login`.
+4. Ensure your default deployment branch is `main` (or adjust workflow trigger).
 
-- `/request-access`
-- `/portal/rfq`
+### Custom domain setup in GitHub
 
-Then verify in Netlify dashboard:
+A `public/CNAME` file is included with:
 
-- **Site configuration** → **Forms** (or **Forms** tab)
-- You should see `request-access` and `portal-rfq`.
+```txt
+foremostmachineinc.com
+```
 
-## 5) Configure portal protection method (implemented: password env var)
+After your first successful deployment:
 
-This MVP uses a shared password flow:
+1. Go to **Repo Settings → Pages**.
+2. Confirm **Custom domain** is `foremostmachineinc.com`.
+3. Enable **Enforce HTTPS** once DNS is fully propagated.
 
-- Login page: `/portal-login`
-- Protected pages: `/portal`, `/portal/rfq`, `/portal/docs`
-- Users who have not logged in (or whose 8-hour session expired) are redirected to `/portal-login`.
+## 4) Point GoDaddy DNS to GitHub Pages
 
-### Security note
+In GoDaddy DNS for `foremostmachineinc.com`, set these records:
 
-This is intentionally lightweight and suitable for an MVP with non-sensitive portal content. It is **not** equivalent to enterprise authentication/authorization.
+- `A` record for host `@` to `185.199.108.153`
+- `A` record for host `@` to `185.199.109.153`
+- `A` record for host `@` to `185.199.110.153`
+- `A` record for host `@` to `185.199.111.153`
+- `CNAME` record for host `www` to `<your-github-username>.github.io`
 
-## 6) Where to view submissions in Netlify dashboard
+Notes:
+- Remove conflicting `A`, `AAAA`, or `CNAME` records on `@`/`www`.
+- DNS propagation can take from a few minutes up to 24–48 hours.
 
-- Access requests: Form name `request-access`
-- RFQs: Form name `portal-rfq`
+## 5) Verify deployment
 
-Navigate to **Netlify Dashboard → Your Site → Forms**.
+1. Push a commit to `main`.
+2. Confirm the **Deploy Astro site to GitHub Pages** action succeeds.
+3. Visit both:
+   - `https://foremostmachineinc.com`
+   - `https://www.foremostmachineinc.com`
+4. If `www` should redirect to apex, configure forwarding in GoDaddy or canonical handling in GitHub/domain settings.
 
-## Netlify Forms implementation notes
+## Important form-handling note
 
-Each form includes required Netlify attributes:
+GitHub Pages is static hosting and does **not** process Netlify Forms submissions.
 
-- `name="..."`
-- `method="POST"`
-- `data-netlify="true"`
-- hidden input: `<input type="hidden" name="form-name" value="..." />`
-- honeypot field: `netlify-honeypot="bot-field"`
-
-RFQ form includes `enctype="multipart/form-data"` for optional file uploads.
+Current forms still render, but submissions will not be captured unless you add a new backend/form provider (for example Formspree, Getform, or a custom serverless endpoint).
