@@ -6,9 +6,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1 class="text-4xl font-bold text-white">Request Access</h1>
     <p class="mt-3 max-w-3xl text-slate-300">Complete this form for commercial account review. We manually approve qualified business customers and send access details by email.</p>
 
-    <form name="request-access" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/request-access-success" class="card mt-8 space-y-4">
-      <input type="hidden" name="form-name" value="request-access" />
-      <p class="hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+    <form name="request-access" method="POST" action="https://formsubmit.co/rumeryp12@gmail.com" class="card mt-8 space-y-4">
+      <input type="hidden" name="_subject" value="New Request Access submission" />
+      <input type="hidden" name="_next" value="https://foremostmachineinc.com/request-access-success" />
+      <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
 
       <div class="grid gap-4 md:grid-cols-2">
         <label class="block"><span class="mb-1 block text-sm text-slate-200">Business legal name *</span><input required name="business-legal-name" type="text" class="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2" /></label>
