@@ -6,7 +6,7 @@ Astro + Tailwind static site for Foremost Machine, Inc.
 
 - Public marketing pages (`/`, `/capabilities`, `/industries`, `/about`, `/contact`, `/request-access`)
 - Commercial-only positioning statement
-- Netlify-form-compatible markup currently used in Request Access and RFQ forms
+- FormSubmit form handling for Request Access and RFQ forms
 - Private portal pages (`/portal`, `/portal/rfq`, `/portal/docs`) hidden from nav and guarded by shared password login (`/portal-login`)
 - SEO basics: metadata, Open Graph image, sitemap integration, favicon, robots rules
 
@@ -81,6 +81,9 @@ Notes:
 
 ## Important form-handling note
 
-GitHub Pages is static hosting and does **not** process Netlify Forms submissions.
+GitHub Pages is static hosting, so form submissions are handled by [FormSubmit](https://formsubmit.co/) endpoints configured in each form.
 
-Current forms still render, but submissions will not be captured unless you add a new backend/form provider (for example Formspree, Getform, or a custom serverless endpoint).
+If you change inbox addresses, update the form `action` URLs in:
+
+- `src/pages/request-access.astro`
+- `src/pages/portal/rfq.astro`
