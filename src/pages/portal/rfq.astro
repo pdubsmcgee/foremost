@@ -4,9 +4,11 @@ import PortalGuard from '../../components/PortalGuard.astro';
 ---
 <BaseLayout title="Portal RFQ | Foremost Machine, Inc.">
   <PortalGuard heading="RFQ Request">
-    <form name="portal-rfq" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="space-y-4">
-      <input type="hidden" name="form-name" value="portal-rfq" />
-      <p class="hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+    <form name="portal-rfq" method="POST" action="https://formsubmit.co/rfq@foremostmachine.com" enctype="multipart/form-data" class="space-y-4">
+      <input type="hidden" name="_subject" value="New Portal RFQ submission" />
+      <input type="hidden" name="_next" value="https://foremostmachineinc.com/portal/rfq" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
       <div class="grid gap-4 md:grid-cols-2">
         <label class="block"><span class="mb-1 block text-sm text-slate-200">Company *</span><input required name="company" type="text" class="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2" /></label>
         <label class="block"><span class="mb-1 block text-sm text-slate-200">Contact *</span><input required name="contact" type="text" class="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2" /></label>
