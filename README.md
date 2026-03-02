@@ -30,7 +30,7 @@ PUBLIC_PORTAL_PASSWORD=your-temp-password npm run dev
 
 Open `http://localhost:4321`.
 
-## 3) Deploy to GitHub Pages
+## 3) Deploy to GitHub Pages (Project Page mode)
 
 This repository is configured to deploy on push to `main` using `.github/workflows/deploy.yml`.
 
@@ -42,33 +42,43 @@ This repository is configured to deploy on push to `main` using `.github/workflo
    - `PUBLIC_PORTAL_PASSWORD` = shared password for `/portal-login`.
 4. Ensure your default deployment branch is `main` (or adjust workflow trigger).
 
-### Custom domain setup in GitHub
+### Expected URL for a project page
 
-A `public/CNAME` file is included with:
+Project Pages deploy to a path under your user/org domain:
 
-```txt
-foremostmachineinc.com
-```
+- `https://<github-username>.github.io/<repo-name>/`
 
-After your first successful deployment:
+This repo now builds with the correct base path automatically in GitHub Actions, so assets/routes resolve correctly on a project page.
 
-1. Go to **Repo Settings → Pages**.
-2. Confirm **Custom domain** is `foremostmachineinc.com`.
-3. Enable **Enforce HTTPS** once DNS is fully propagated.
+## 4) DNS guidance if checks are failing
 
-## 4) Point GoDaddy DNS to GitHub Pages
+If you're using a **project page** (`github.io/<repo-name>`), you usually **do not need any DNS records** at all.
 
-In GoDaddy DNS for `foremostmachineinc.com`, set these records:
+Use this checklist:
 
-- `A` record for host `@` to `185.199.108.153`
-- `A` record for host `@` to `185.199.109.153`
-- `A` record for host `@` to `185.199.110.153`
-- `A` record for host `@` to `185.199.111.153`
-- `CNAME` record for host `www` to `<your-github-username>.github.io`
+1. In **Repo Settings → Pages**, remove any custom domain value.
+2. Ensure **Enforce HTTPS** is enabled only for the `github.io` URL.
+3. Delete conflicting custom-domain files/records from previous setups (for this repo, the `CNAME` file was removed).
+4. Re-run the Pages deploy workflow and wait a few minutes.
 
-Notes:
-- Remove conflicting `A`, `AAAA`, or `CNAME` records on `@`/`www`.
-- DNS propagation can take from a few minutes up to 24–48 hours.
+### When DNS records are needed
+
+Only configure DNS if you want a custom domain (like `foremostmachineinc.com`).
+
+If you switch back to a custom domain later, set:
+
+- `A @ 185.199.108.153`
+- `A @ 185.199.109.153`
+- `A @ 185.199.110.153`
+- `A @ 185.199.111.153`
+- `CNAME www <your-github-username>.github.io`
+
+If GitHub still says **DNS check unsuccessful** for a custom domain:
+
+- Remove all extra `A`, `AAAA`, forwarding, or parking records on `@`.
+- Ensure `www` points directly to `<your-github-username>.github.io` (not to apex).
+- Confirm the exact same custom domain is entered in **Repo Settings → Pages**.
+- Wait for propagation (often quick, but can take up to 24–48 hours).
 
 ### DNS records checklist (quick copy)
 
@@ -93,10 +103,9 @@ Common problems if DNS "doesn't work":
 
 1. Push a commit to `main`.
 2. Confirm the **Deploy Astro site to GitHub Pages** action succeeds.
-3. Visit both:
-   - `https://foremostmachineinc.com`
-   - `https://www.foremostmachineinc.com`
-4. If `www` should redirect to apex, configure forwarding in GoDaddy or canonical handling in GitHub/domain settings.
+3. Visit your project page URL:
+   - `https://<github-username>.github.io/<repo-name>/`
+4. If you later add a custom domain, re-add DNS records and set the domain in Pages settings.
 
 ## Important form-handling note
 

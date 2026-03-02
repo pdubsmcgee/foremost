@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+const withBase = (path) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
 ---
 <BaseLayout title="Contact | Foremost Machine, Inc.">
   <section class="section-shell">
@@ -19,7 +20,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p><span class="font-semibold text-white">Hours:</span> Monday–Friday, 8:00 AM–5:00 PM CT</p>
       </div>
 
-      <a href="/request-access" class="inline-block rounded-md bg-brand-500 px-5 py-3 font-semibold text-white hover:bg-brand-400">Go to Request Access</a>
+      <a href={withBase('/request-access')} class="inline-block rounded-md bg-brand-500 px-5 py-3 font-semibold text-white hover:bg-brand-400">Go to Request Access</a>
     </div>
   </section>
 </BaseLayout>
