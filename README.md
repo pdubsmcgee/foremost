@@ -70,6 +70,25 @@ Notes:
 - Remove conflicting `A`, `AAAA`, or `CNAME` records on `@`/`www`.
 - DNS propagation can take from a few minutes up to 24–48 hours.
 
+### DNS records checklist (quick copy)
+
+Use **only** the following records for apex + `www`:
+
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A | @ | 185.199.108.153 | 1 hour (or default) |
+| A | @ | 185.199.109.153 | 1 hour (or default) |
+| A | @ | 185.199.110.153 | 1 hour (or default) |
+| A | @ | 185.199.111.153 | 1 hour (or default) |
+| CNAME | www | `<your-github-username>.github.io` | 1 hour (or default) |
+
+Common problems if DNS "doesn't work":
+
+- `www` CNAME points to the apex domain instead of `github.io`.
+- Apex (`@`) has extra parking/forwarding/AAAA records still enabled.
+- GitHub Pages custom domain is not set to `foremostmachineinc.com`.
+- HTTPS is enforced before records have finished propagating.
+
 ## 5) Verify deployment
 
 1. Push a commit to `main`.
